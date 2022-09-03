@@ -1,45 +1,55 @@
-import React from "react";
-import JSONSchemaForm from "react-jsonschema-form";
+import React, { Component } from "react";
 
-/* schema portion */
+export default function App() {
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
-const postSchema = {
-  
-  title:"Internship Form",
-  type: "object",
-  properties: {
-    title: {
-      title: "Name",
-      type: "string",
-    },
-    job: {
-      title: "Job Title",
-      type:"string",
-      enum:["Java Intern","Frontend Intern","QA","Software Engineer","Others"]
-    },
-    dateapp: {
-      title: "Date applied",
-      type: "string",
-      format: "date-time"
-    },
-    citizenshipno: {
-      title: "Citizenship number",
-      type: "string"
+  const [acceptedTerms, setAcceptedTerms] = React.useState(false);
 
-    }
-  },
-  required: ["title", "job", "dateapp" ,"citizenshipno"]
-};
+  const handleSubmit = (event) => {
+    console.log(`
+      Email: ${email}
+      Password: ${password}
+      Accepted Terms: ${acceptedTerms}
+    `);
+    
+    event.preventDefault();
+  }
 
-
-export default function Form({ onSubmit }) {
   return (
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-          <JSONSchemaForm onSubmit={onSubmit} schema={postSchema} />
-        </div>
-      </div>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <h1>Create Account</h1>
+
+      <label>
+        Email:
+        <input
+          name="email"
+          type="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          required />
+      </label>
+      
+      <label>
+        Password:
+        <input
+          name="password"
+          type="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required />
+      </label>
+
+      <label>
+        <input
+          name="acceptedTerms"
+          type="checkbox"
+          onChange={e => setAcceptedTerms(e.target.value)}
+          required />
+        I accept the terms of service        
+      </label>
+
+      <button>Submit</button>
+    </form>
   );
 }
